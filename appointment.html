@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointment Form</title>
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="time"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 24px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.8em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Book Appointment</h1>
+    <form id="appointmentForm" action="/submit_appointment" method="POST" onsubmit="return validateForm()">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+        <span id="emailError" class="error"></span>
+      </div>
+	  <div class="form-group">
+        <label for="doctor">Doctor's Name</label>
+        <input type="text" id="doctor" name="doctor" required>
+      </div>
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" min="<%= (new Date()).toISOString().split('T')[0] %>" required>
+      </div>
+      <div class="form-group">
+        <label for="time">Time</label>
+        <input type="time" id="time" name="time" required>
+      </div>
+      
+      <!-- The hospital name is passed as a hidden input field -->
+      <input type="hidden" id="hospital" name="hospital">
+      <input type="submit" value="Submit Appointment">
+    </form>
+  </div>
+  <script>
+    // Get the hospital name from the URL query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const hospitalName = urlParams.get('hospital');
+
+    // Set the value of the hidden input field to the hospital name
+    document.getElementById('hospital').value = hospitalName;
+
+    // Validate email format
+    function validateEmail(email) {
+      const re = /\S+@\S+\.\S+/;
+      return re.test(email);
+    }
+
+    function validateForm() {
+  const email = document.getElementById('email').value;
+  const emailError = document.getElementById('emailError');
+  const date = document.getElementById('date').value;
+  const time = document.getElementById('time').value;
+
+  // Get the current date and time
+  const currentDate = new Date();
+  const currentTime = currentDate.getHours() + ':' + currentDate.getMinutes();
+
+  // Check if the selected date is today
+  if (date === currentDate.toISOString().split('T')[0]) {
+    // Check if the selected time is in the future
+    if (time <= currentTime) {
+      alert('Please select a future time.');
+      return false;
+    }
+  } else {
+    // Check if the selected date is in the future
+    if (new Date(date) < currentDate) {
+      alert('Please select a future date.');
+      return false;
+    }
+  }
+
+  // Validate email format
+  const re = /\S+@\S+\.\S+/;
+  if (!re.test(email)) {
+    emailError.textContent = 'Please enter a valid email address.';
+    return false;
+  } else {
+    emailError.textContent = '';
+    return true;
+  }
+}
+
+  </script>
+</body>
+</html>

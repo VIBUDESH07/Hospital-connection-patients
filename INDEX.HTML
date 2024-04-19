@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <title>Find a Doctor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('logo_make_11_06_2023_349.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .navbar {
+            background-color: #007bff;
+            padding: 10px;
+        }
+        .navbar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        .navbar li {
+    flex: 1; /* Distribute space equally */
+    text-align: center; /* Center align text */
+    margin: 0 3px; /* Adjust margin to create space between list items */
+}
+
+        .navbar li:last-child {
+            margin-right: 0;
+        }
+       .navbar a {
+    color: #fff;
+    text-decoration: none;
+    display: flex; /* Add flex display to align icon and text */
+    align-items: center; /* Center align icon and text vertically */
+}
+
+.navbar a i {
+    margin-right: 10px; /* Adjust as needed to add spacing between icon and text */
+}
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Added a semi-transparent white background */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .contact {
+            margin-top: 50px;
+        }
+
+        .contact h2 {
+            color: #333;
+        }
+
+        #contact-form input,
+        #contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #contact-form button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #response-message {
+            margin-top: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+    <ul>
+       <li><a href="#" id="home-link"><i class="fas fa-home"></i> Home</a></li>
+<li><a href="20test.html" id="about-link"><i class="fas fa-info-circle"></i> About</a></li>
+<li><a href="/login" id="add-doctor-link"><i class="fas fa-user-md"></i> Add Doctor</a></li>
+<li><a href="/add_update" id="add-hospital-link"><i class="fas fa-hospital"></i> Add Hospital</a></li>
+<li><a href="/phar_login" id="pharmacy-link"><i class="fas fa-pills"></i> Doc-pharm</a></li>
+<li><a href="/pharmacian_login" id="pharmacian-link"><i class="fas fa-prescription-bottle"></i> Pharmacy</a></li>
+<li><a href="/recep_login" id="recep-link"><i class="fas fa-users"></i> PatientList</a></li>
+<li><a href="/add_lab" id="recep-link"><i class="fas fa-flask"></i> Add Lab</a></li>
+
+        <li>
+            <select id="language-select">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी</option>
+                <option value="bn">বাংলা</option>
+                <option value="te">తెలుగు</option>
+                <option value="mr">मराठी</option>
+                <option value="ta">தமிழ்</option>
+                <option value="ur">اردو</option>
+                <!-- Add more language options as needed -->
+            </select>
+        </li>
+    </ul>
+</div>
+    <div class="container">
+        <h1 id="welcome-message"></h1>
+        <p></p>
+       
+        <h2 id="for-humans-header"></h2>
+        <ul class="human-doctors">
+            <li><a href="/general_physician" id="">Doctors</a></li>
+        </ul>
+        <h2 id="hospitals-header"></h2>
+        <ul class="hospitals">
+            <li><a href="/hospitals" id="hospital1-link"></a></li>
+			<li><a href="/pat" id="Pharmacy-link">Pharmacy</a><li>
+			<li><a href="/lab" id="Pharmacy-link">Lab</a><li>
+
+        </ul>
+         <a href="/nearby">Find nearBy hospital</a>
+        <!-- Contact form section -->
+        <div class="contact">
+            <h2 id="contact-title"></h2>
+            <form id="contact-form">
+                <input type="text" id="name" placeholder="">
+                <input type="email" id="email" placeholder="">
+                <textarea id="message" placeholder=""></textarea>
+                <button type="submit"></button>
+            </form>
+            <div id="response-message"></div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Hide animal, human doctors, and hospitals initially
+            $(".animal-doctors").hide();
+            $(".human-doctors").hide();
+            $(".hospitals").hide();
+
+            // Smooth scroll to section when navbar link is clicked
+            $("#home-link").click(function() {
+                $("html, body").animate({
+                    scrollTop: 0
+                }, "slow");
+            });
+
+            $("#about-link").click(function() {
+                $("html, body").animate({
+                    scrollTop: $(".container").offset().top
+                }, "slow");
+            });
+
+            // Change language when selected from the dropdown
+            $("#language-select").change(function() {
+                const selectedLanguage = $(this).val();
+                switchLanguage(selectedLanguage);
+            });
+
+            // Toggle visibility of sections on click
+            $("h2").click(function() {
+                $(this).next("ul").slideToggle();
+            });
+
+            // Handle form submission
+            $("#contact-form").submit(function(e) {
+                e.preventDefault();
+                // Get form data
+                var formData = {
+                    name: $("#name").val(),
+                    email: $("#email").val(),
+                    message: $("#message").val()
+                };
+                // Simulate form submission (Replace this with actual AJAX call)
+                // For demonstration purposes, just show a success message
+                $("#response-message").text("Message sent successfully!");
+                // Clear form fields
+                $("#contact-form")[0].reset();
+            });
+
+            // Initially set text based on default language (English)
+            switchLanguage('en');
+        });
+
+        function switchLanguage(language) {
+            const translations = {
+                'en': {
+                    'welcome_message': 'Welcome to our platform where you can find doctors, surgeons, and hospitals with various facilities.',
+                    'for_animals': 'For Animals',
+                    'for_humans': 'For Humans',
+                    'hospitals': 'Hospitals',
+                    'animal_doctors': 'Veterinarians',
+                    'human_doctors': ['General Physicians', 'Surgeons', 'Homeopathy'],
+                    'hospital_names': ['Hospital 1', 'Hospital 2'],
+                    'contact_us': 'Contact Us',
+                    'your_name': 'Your Name',
+                    'your_email': 'Your Email',
+                    'your_message': 'Your Message',
+                    'send': 'Send',
+                    'message_sent_successfully': 'Message sent successfully!'
+                },
+                'hi': {
+                    'welcome_message': 'हमारे प्लेटफ़ॉर्म पर आप विभिन्न सुविधाओं के साथ डॉक्टर, सर्जन, और अस्पतालों को खोज सकते हैं।',
+                    'for_animals': 'पशुओं के लिए',
+                    'for_humans': 'मानवों के लिए',
+                    'hospitals': 'अस्पताल',
+                    'animal_doctors': 'पशु चिकित्सक',
+                    'human_doctors': ['सामान्य डॉक्टर्स', 'शल्यचिकित्सक', 'होम्योपैथी'],
+                    'hospital_names': ['हॉस्पिटल 1', 'हॉस्पिटल 2'],
+                    'contact_us': 'संपर्क करें',
+                    'your_name': 'आपका नाम',
+                    'your_email': 'आपका ईमेल',
+                    'your_message': 'आपका संदेश',
+                    'send': 'भेजें',
+                    'message_sent_successfully': 'पीघाम कामयाबी के साथ भेजा गया!'
+                },
+                'bn': {
+                    'welcome_message': 'আমাদের প্ল্যাটফর্মে আপনি বিভিন্ন সুবিধা সহ ডাক্টর, শস্যচিকিৎসক এবং হাসপাতাল খুঁজে পাবেন।',
+                    'for_animals': 'প্রাণীদের জন্য',
+                    'for_humans': 'মানুষের জন্য',
+                    'hospitals': 'হাসপাতাল',
+                    'animal_doctors': 'প্রাণী ডাক্টর',
+                    'human_doctors': ['সাধারণ ডাক্টর', 'অস্থির', 'হোমিওপ্যাথি'],
+                    'hospital_names': ['হাসপাতাল ১', 'হাসপাতাল ২'],
+                    'contact_us': 'যোগাযোগ করুন',
+                    'your_name': 'আপনার নাম',
+                    'your_email': 'আপনার ইমেল',
+                    'your_message': 'আপনার বার্তা',
+                    'send': 'পাঠান',
+                    'message_sent_successfully': 'বার্তা সফলভাবে প্রেরণ করা হয়েছে!'
+                },
+                'te': {
+                    'welcome_message': 'మా ప్లాట్‌ఫార్మ్‌లో వివిధ సౌలభ్యాలు ఉన్న డాక్టర్‌లు, సర్జన్‌లు మరియు ఆసుపత్రులను కనుగొనండి.',
+                    'for_animals': 'పశువులకు',
+                    'for_humans': 'మనిషులకు',
+                    'hospitals': 'ఆసుపత్రులు',
+                    'animal_doctors': 'పశు వైద్యులు',
+                    'human_doctors': ['సామాన్య వైద్యులు', 'శస్త్రచికిత్స వైద్యులు', 'హోమియోపతీ'],
+                    'hospital_names': ['ఆసుపత్రి 1', 'ఆసుపత్రి 2'],
+                    'contact_us': 'మాకు సంప్రదించండి',
+                    'your_name': 'మీ పేరు',
+                    'your_email': 'మీ ఇమెయిల్',
+                    'your_message': 'మీ సందేశం',
+                    'send': 'పంపించు',
+                    'message_sent_successfully': 'సందేశం విజయవంతంగా పంపబడింది!'
+                },
+                'mr': {
+                    'welcome_message': 'आपल्याला डॉक्टर, सर्जन आणि विविध सुविधांसह अस्पताल कुठे शोधू शकता याच्या व्यावसायिक प्लॅटफॉर्मवर स्वागत आहे.',
+                    'for_animals': 'प्राण्यांसाठी',
+                    'for_humans': 'माणसांसाठी',
+                    'hospitals': 'रुग्णालये',
+                    'animal_doctors': 'प्राणी डॉक्टर',
+                    'human_doctors': ['सामान्य डॉक्टर्स', 'शल्यचिकित्सक', 'होम्योपॅथी'],
+                    'hospital_names': ['रुग्णालय 1', 'रुग्णालय 2'],
+                    'contact_us': 'संपर्क साधा',
+                    'your_name': 'तुमचं नाव',
+                    'your_email': 'तुमचा ईमेल',
+                    'your_message': 'तुमचं संदेश',
+                    'send': 'पाठवा',
+                    'message_sent_successfully': 'संदेश यशस्वीरित्या पाठविला गेला आहे!'
+                },
+                'ta': {
+                    'welcome_message': 'வெற்றிகரமாக மருத்துவர்கள், அறுவைகள் மற்றும் பல்வேறு சேவைகளுடன் மருத்துவமனைகளை கண்டறி பாருங்கள் என்பது எங்கள் பையாசத்தில் நல்லாளர்கள், அறுவைகள் மற்றும் மருத்துவமனைகளைக் காண்கின்ற நிலையில் வருகின்றனர்.',
+                    'for_animals': 'விலங்குகளுக்காக',
+                    'for_humans': 'மனிதர்களுக்காக',
+                    'hospitals': 'மருத்துவமனைகள்',
+                    'animal_doctors': 'வேலையாளர்கள்',
+                    'human_doctors': ['பொது மருத்துவர்கள்', 'அறுவைச்சுவடிகள்', 'ஹோமியோபதி'],
+                    'hospital_names': ['மருத்துவமனை 1', 'மருத்துவமனை 2'],
+                    'contact_us': 'தொடர்பு கொள்ளவும்',
+                    'your_name': 'உங்கள் பெயர்',
+                    'your_email': 'உங்கள் மின்னஞ்சல்',
+                    'your_message': 'உங்கள் செய்தி',
+                    'send': 'அனுப்பவும்',
+                    'message_sent_successfully': 'செய்தி வெற்றிகரமாக அனுப்பப்பட்டுள்ளது!'
+                },
+                'ur': {
+                    'welcome_message': 'ہمارے پلیٹ فارم پر آپ ڈاکٹر، سرجن اور مختلف سہولتوں کے ساتھ ہسپتال کو کہاں تلاش کرسکتے ہیں۔',
+                    'for_animals': 'جانوروں کے لئے',
+                    'for_humans': 'انسانوں کے لئے',
+                    'hospitals': 'ہسپتالات',
+                    'animal_doctors': 'جانوروں کے ڈاکٹر',
+                    'human_doctors': ['عام ڈاکٹر', 'سرجن', 'ہومیوپیتھی'],
+                    'hospital_names': ['ہسپتال 1', 'ہسپتال 2'],
+                    'contact_us': 'ہم سے رابطہ کریں',
+                    'your_name': 'آپ کا نام',
+                    'your_email': 'آپ کا ای میل',
+                    'your_message': 'آپ کا پیغام',
+                    'send': 'بھیجیں',
+                    'message_sent_successfully': 'پیغام کامیابی کے ساتھ بھیجا گیا!'
+                }
+            };
+
+            const t = translations[language];
+
+            // Set welcome message
+            $("#welcome-message").text(t.welcome_message);
+
+            // Set text for different sections
+            $("#for-animals-header").text(t.for_animals);
+            $("#for-humans-header").text(t.for_humans);
+            $("#hospitals-header").text(t.hospitals);
+
+            // Set text for animal doctors
+            $("#animal-doctors-link").text(t.animal_doctors);
+
+            // Set text for human doctors
+            $("#general-physician-link").text(t.human_doctors[0]);
+            $("#surgeon-link").text(t.human_doctors[1]);
+            $("#homeopathy-link").text(t.human_doctors[2]);
+
+            // Set text for hospitals
+            $("#hospital1-link").text(t.hospital_names[0]);
+            $("#hospital2-link").text(t.hospital_names[1]);
+
+            // Set text for contact section
+            $("#contact-title").text(t.contact_us);
+            $("#name").attr("placeholder", t.your_name);
+            $("#email").attr("placeholder", t.your_email);
+            $("#message").attr("placeholder", t.your_message);
+            $("#contact-form button").text(t.send);
+            $("#response-message").text("");
+
+            // Set language for form validation
+            $("#name").attr("lang", language);
+            $("#email").attr("lang", language);
+            $("#message").attr("lang", language);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .navbar {
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .navbar li {
+            margin: 0 20px;
+        }
+
+        .navbar li a {
+            display: flex;
+            align-items: center;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            padding: 10px 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar li a:hover {
+            background-color: rgb(80, 169, 169);
+            color: white;
+        }
+
+        .navbar li a i {
+            margin-right: 10px;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-background {
+            background-image: url('doc.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .rounded-background {
+            background-color: rgba(80, 169, 169, 0.8);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .shape {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(79, 170, 165, 0.755);
+            border-radius: 50%;
+            position: absolute;
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+            to {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        .shape1 { top: 20%; left: 40%; }
+        .shape2 { top: 50%; left: 75%; }
+        .shape3 { top: 80%; left: 55%; }
+
+        .content {
+            flex: 1;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation-name: fadeInUp;
+            animation-duration: 1s;
+            animation-delay: 0.5s;
+            animation-fill-mode: both;
+            padding: 20px;
+            z-index: 2;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body onload="init()">
+    <div class="navbar">
+        <ul>
+            <li><a href="/" id="home-link"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="/20test.html" id="about-link"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="/login" id="add-doctor-link"><i class="fas fa-user-md"></i> Add Doctor</a></li>
+            <li><a href="/add_hospital" id="add-hospital-link"><i class="fas fa-hospital"></i> Add Hospital</a></li>
+        </ul>
+    </div>
+    <div class="content-wrapper">
+        <div class="image">
+            <div class="rounded-background"></div>
+            <div class="image-background"></div>
+        </div>
+        <div class="content">
+            <!-- <div class="shapes">
+                <div class="shape shape1"></div>
+                <div class="shape shape2"></div>
+                <div class="shape shape3"></div>
+            </div> -->
+            <h1>Get quick medical services</h1>
+            <pre><h3>"Welcome, where your health is our priority. 
+From routine check-ups to specialized treatments. 
+We're here to support you every step of the way."</h3></pre>
+    <div class="container mt-3 mb-3" style="padding: 20px;">
+        <div id="map" class="map"></div>
+        <p id="info" class="info mt-3"></p>
+        <p id="loc" class="loc mb-3"></p>
+        <!-- <a href="" id="mess" class="mess"></a> -->
+    </div>
+</div>
+        </div>
+    </div>
+    <script>
+        /**
+ * Create google maps Map instance.
+ * @param {number} lat
+ * @param {number} lng
+ * @return {Object}
+ */
+const createMap = ({ lat, lng }) => {
+    return new google.maps.Map(document.getElementById('map'), {
+      center: { lat, lng },
+      zoom: 15
+    });
+  };
+  
+  /**
+   * Device Orientation which help's to move marker to rotate.
+   */
+        
+   window.addEventListener("deviceorientation", handleOrientation, true);
+  
+  var glb = 0;
+  
+  function handleOrientation(event) {
+     glb = Math.round(event.alpha);
+    var icon = {
+                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                strokeColor : '#3333FF',
+                strokeWeight : 5,
+                scale: 2.5,
+                rotation:-glb
+              };
+  
+      if (marker) {
+       marker.setIcon(icon);
+    }else{
+      console.log("marker not created yet");
+    }
+    console.log('glb',glb);
+  }
+  
+  /**
+   * Create google maps Marker instance.
+   * @param {Object} map
+   * @param {Object} position
+   * @return {Object}
+   */
+       
+  const createMarker = ({ map, position }) => {
+    
+     myLocationMarker =  new google.maps.Marker({ map, position ,icon: {
+                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                strokeColor : '#3333FF',
+                strokeWeight : 5,
+                scale: 2.5,
+                rotation:glb
+                //rotation:event.alpha,
+  
+              },
+          shadow : null,
+          zIndex : 999});
+  
+     // Add circle overlay and bind to marker
+  var circle = new google.maps.Circle({
+    map: map,
+    radius: 1000,    // 10 miles in metres
+    fillColor: '#108ee76e',
+     strokeColor : '#108ee7',
+  });
+  circle.bindTo('center', myLocationMarker, 'position');
+  
+     
+  
+      return myLocationMarker;
+  };
+  
+  
+  /**
+   * Track the user location.
+   * @param {Object} onSuccess
+   * @param {Object} [onError]
+   * @return {number}
+   */
+  const trackLocation = ({ onSuccess, onError = () => { } }) => {
+    if ('geolocation' in navigator === false) {
+      return onError(new Error('Geolocation is not supported by your browser.'));
+    }
+  
+    return navigator.geolocation.watchPosition(onSuccess, onError, {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    });
+  };
+  
+  /**
+   * Get position error message from the given error code.
+   * @param {number} code
+   * @return {String}
+   */
+  const getPositionErrorMessage = code => {
+    switch (code) {
+      case 1:
+        return 'Permission denied.';
+      case 2:
+        return 'Position unavailable.';
+      case 3:
+        return 'Timeout reached.';
+    }
+  }
+  
+  /**
+   * Initialize the application.
+   * Automatically called by the google maps API once it's loaded.
+  */
+  // if(window.innerHeight > window.innerWidth){
+  //     alert("Please use Landscape!");
+  // }
+  // Listen for orientation changes
+  
+  var marker;
+  function init() {
+    const initialPosition = { lat: 59.32, lng: 17.84 };
+    const map = createMap(initialPosition);
+    marker = createMarker({ map, position: initialPosition });
+    const $info = document.getElementById('info');
+    const $loc=document.getElementById('loc');
+    const $mess=document.getElementById('mess');
+    let watchId = trackLocation({
+      onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+        marker.setPosition({ lat, lng });
+        map.panTo({ lat, lng });
+        $info.textContent = "Your Location- "+`Lat: ${lat.toFixed(5)} Lng: ${lng.toFixed(5)}`;
+        $loc.innerHTML = `<a href="https://www.google.com/maps?q=${lat.toFixed(5)},${lng.toFixed(5)}">View on Google Maps</a>`;
+        $mess.href = `sms:8940790989?body=https://www.google.com/maps?q=${lat.toFixed(5)},${lng.toFixed(5)}`;
+        $info.classList.remove('error');
+      },
+      onError: err => {
+        console.log($info);
+        //$info.textContent = `Error: ${err.message || getPositionErrorMessage(err.code)}`;
+        //$info.classList.add('error');
+      }
+    });
+  
+  // Store old reference
+  const appendChild = Element.prototype.appendChild;
+  
+  // All services to catch
+  const urlCatchers = [
+    "/AuthenticationService.Authenticate?",
+    "/QuotaService.RecordEvent?"
+  ];
+  
+  // Google Map is using JSONP.
+  // So we only need to detect the services removing access and disabling them by not
+  // inserting them inside the DOM
+  Element.prototype.appendChild = function (element) {
+    const isGMapScript = element.tagName === 'SCRIPT' && /maps\.googleapis\.com/i.test(element.src);
+    const isGMapAccessScript = isGMapScript && urlCatchers.some(url => element.src.includes(url));
+  
+    if (!isGMapAccessScript) {
+      return appendChild.call(this, element);
+    }
+  
+    // Extract the callback to call it with success data
+    // Only needed if you actually want to use Autocomplete/SearchBox API
+    //const callback = element.src.split(/.*callback=([^\&]+)/, 2).pop();
+    //const [a, b] = callback.split('.');
+    //window[a][b]([1, null, 0, null, null, [1]]);
+  
+    // Returns the element to be compliant with the appendChild API
+    return element;
+  };
+  
+  }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=init"></script>
+</body>
+</html>

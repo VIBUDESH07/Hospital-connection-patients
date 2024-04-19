@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .navbar {
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .navbar li {
+            margin: 0 20px;
+        }
+
+        .navbar li a {
+            display: flex;
+            align-items: center;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            padding: 10px 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar li a:hover {
+            background-color: rgb(80, 169, 169);
+            color: white;
+        }
+
+        .navbar li a i {
+            margin-right: 10px;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-background {
+            background-image: url('doc.png');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .rounded-background {
+            background-color: rgba(80, 169, 169, 0.8);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .shape {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(79, 170, 165, 0.755);
+            border-radius: 50%;
+            position: absolute;
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+            to {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        .shape1 { top: 20%; left: 40%; }
+        .shape2 { top: 50%; left: 75%; }
+        .shape3 { top: 80%; left: 55%; }
+
+        .content {
+            flex: 1;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation-name: fadeInUp;
+            animation-duration: 1s;
+            animation-delay: 0.5s;
+            animation-fill-mode: both;
+            padding: 20px;
+            z-index: 2;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="#" id="home-link"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#" id="about-link"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="/login" id="add-doctor-link"><i class="fas fa-user-md"></i> Add Doctor</a></li>
+            <li><a href="/add_hospital" id="add-hospital-link"><i class="fas fa-hospital"></i> Add Hospital</a></li>
+        </ul>
+    </div>
+    <div class="content-wrapper">
+        <div class="image">
+            <div class="rounded-background"></div>
+            <div class="image-background"></div>
+        </div>
+        <div class="content">
+            <h1>Get quick medical services</h1>
+            <h3>Welcome, where your health is our priority. From routine check-ups to specialized treatments. We're here to support you every step of the way.</h3>
+            <div class="shapes">
+                <div class="shape shape1"></div>
+                <div class="shape shape2"></div>
+                <div class="shape shape3"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

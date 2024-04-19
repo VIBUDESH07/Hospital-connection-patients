@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Hospital</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    input[type="email"],
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+    .success-message {
+      color: green;
+      font-size: 14px;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+    .loading {
+      display: none;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Update Hospital</h2>
+    <form id="updateHospitalForm">
+      <input type="text" name="name" placeholder="Hospital Name" required>
+      <input type="text" name="specialization" placeholder="Specialization">
+      <input type="text" name="place" placeholder="Place">
+      <input type="number" step="0.1" name="rating" placeholder="Rating">
+      <input type="number" name="roomsAvailability" placeholder="Rooms Availability">
+      <input type="text" name="availability" placeholder="Availability"> 
+	  <input type="text" name="facility" placeholder="facility">
+      <input type="email" name="email" placeholder="Email">
+      <input type="password" name="pass" placeholder="Password">
+      <input type="submit" value="Update Hospital">
+      <div class="error-message" id="errorMessage"></div>
+      <div class="success-message" id="successMessage"></div>
+      <div class="loading" id="loadingIndicator">Updating...</div>
+    </form>
+  </div>
+
+  <!-- jQuery CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#updateHospitalForm').submit(function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Hide any previous messages
+        $('#errorMessage').hide();
+        $('#successMessage').hide();
+
+        // Show loading indicator
+        $('#loadingIndicator').show();
+
+        // Serialize form data
+        const formData = $(this).serialize();
+
+        // Send POST request to server to update hospital
+        $.ajax({
+          type: 'POST',
+          url: '/update_hospital', // URL to send the request
+          data: formData, // Form data to send
+          success: function(response) {
+            // If request is successful, show success message
+            $('#successMessage').text(response).show();
+            // Log form data in the console
+            console.log("Entered Data: ", formData);
+            // Clear form fields
+            $('#updateHospitalForm')[0].reset();
+          },
+          error: function(xhr, status, error) {
+            // If request fails, show error message
+            $('#errorMessage').text('Error: ' + xhr.responseText).show();
+          },
+          complete: function() {
+            // Hide loading indicator
+            $('#loadingIndicator').hide();
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

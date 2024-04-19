@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Tests Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+      .test-info {
+    background-size: cover; /* Ensure the background image covers the entire div */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: calc(50% - 20px); /* 50% width with margin */
+    box-sizing: border-box;
+    background-color: #eaf6ff; /* Set the background color */
+}
+
+
+        .test-info:nth-child(odd) {
+            margin-right: 20px; /* Margin between columns */
+        }
+        .test-info p {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .test-info:nth-child(1) { background-image: url('blood test.jpg'); }
+        .test-info:nth-child(2) { background-image: url('urine_test_image.jpg'); }
+        .test-info:nth-child(3) { background-image: url('mri_scan_image.jpg'); }
+    </style>
+</head>
+<body>
+    <h1><Marquee>Medical Tests Information</marquee></h1>
+    <div class="test-container">
+        <!-- Blood Test -->
+        <div class="test-info">
+            <h2>Blood Test</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Fast for 8-12 hours before the test.</li>
+                <li>Avoid heavy exercise and stressful activities prior to the test.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Resume your normal diet and activities.</li>
+                <li>Drink plenty of water to stay hydrated.</li>
+            </ul>
+        </div>
+        <!-- Urine Test -->
+        <div class="test-info">
+            <h2>Urine Test</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Collect a clean urine sample in a sterile container.</li>
+                <li>Follow any specific instructions provided by your doctor.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Dispose of the urine sample properly.</li>
+                <li>Wash your hands thoroughly.</li>
+            </ul>
+        </div>
+        <!-- MRI Scan -->
+        <div class="test-info">
+            <h2>MRI Scan (Magnetic Resonance Imaging)</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Remove any metal objects and inform the technician if you have any metal implants.</li>
+                <li>Wear comfortable clothing without any metal zippers or buttons.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Resume your normal activities.</li>
+                <li>Follow up with your doctor for the results.</li>
+            </ul>
+        </div>
+        <!-- X-Ray Test -->
+        <div class="test-info">
+            <h2>X-Ray Test (Radiography)</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Remove any metal objects or jewelry.</li>
+                <li>Wear a hospital gown if required.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Follow your doctor's instructions for any further steps.</li>
+                <li>Wait for the results to be analyzed.</li>
+            </ul>
+        </div>
+        <!-- CT Scan -->
+        <div class="test-info">
+            <h2>CT Scan (Computed Tomography)</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Fast for 4-6 hours before the test, especially if contrast dye will be used.</li>
+                <li>Inform your doctor if you have any allergies, kidney problems, or diabetes.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Resume your normal diet and activities.</li>
+                <li>Drink plenty of fluids to help flush out the contrast dye.</li>
+            </ul>
+        </div>
+        <!-- ECG -->
+        <div class="test-info">
+            <h2>ECG (Electrocardiogram)</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Wear loose clothing that allows access to your chest.</li>
+                <li>Avoid oily or greasy lotions on your chest before the test.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>No special precautions are usually needed after an ECG.</li>
+                <li>Discuss the results with your doctor during your follow-up appointment.</li>
+            </ul>
+        </div>
+        <!-- EEG -->
+        <div class="test-info">
+            <h2>EEG (Electroencephalogram)</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Wash your hair before the test, but do not use any hair products like gels or sprays.</li>
+                <li>Follow any specific instructions provided by your doctor, such as avoiding caffeine.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Resume your normal activities.</li>
+                <li>Discuss the results with your doctor during your follow-up appointment.</li>
+            </ul>
+        </div>
+        <!-- Endoscopy -->
+        <div class="test-info">
+            <h2>Endoscopy</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Fasting for 6-8 hours before the test, depending on the type of endoscopy.</li>
+                <li>Inform your doctor about any medications you are taking and any health conditions you have.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Rest until the effects of the sedation wear off.</li>
+                <li>Follow any dietary restrictions provided by your doctor.</li>
+            </ul>
+        </div>
+        <!-- Colonoscopy -->
+        <div class="test-info">
+            <h2>Colonoscopy</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Cleanse your colon as instructed by your doctor.</li>
+                <li>Follow any dietary restrictions provided by your doctor.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Drink plenty of fluids to prevent dehydration.</li>
+                <li>Resume your normal diet unless instructed otherwise by your doctor.</li>
+            </ul>
+        </div>
+         <!-- Sugar Test -->
+         <div class="test-info">
+            <h2>Sugar Test</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Fast overnight for 8-12 hours before the test.</li>
+                <li>Avoid consuming sugary foods or beverages before the test.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Resume your normal diet unless instructed otherwise by your doctor.</li>
+                <li>Monitor your blood sugar levels as advised by your healthcare provider.</li>
+            </ul>
+        </div>
+        <!-- Ultrasound -->
+        <div class="test-info">
+            <h2>Ultrasound</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Follow any fasting instructions provided by your doctor, if necessary.</li>
+                <li>Wear comfortable clothing and avoid wearing jewelry around the area being examined.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>No special precautions are usually needed after an ultrasound.</li>
+                <li>Discuss the results with your doctor during your follow-up appointment.</li>
+            </ul>
+        </div>
+        <!-- Blood Pressure Monitoring -->
+        <div class="test-info">
+            <h2>Blood Pressure Monitoring</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Avoid caffeine, alcohol, and smoking for at least 30 minutes before the test.</li>
+                <li>Sit quietly for 5 minutes before the test begins.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>No special precautions are usually needed after a blood pressure monitoring session.</li>
+                <li>Follow any recommendations provided by your doctor regarding blood pressure management.</li>
+            </ul>
+        </div>
+         <!-- Stomach Test -->
+       <div class="test-info">
+        <h2>Stomach Test (Ulcer Diagnosis)</h2>
+        <p><strong>Before the Test:</strong></p>
+        <ul>
+            <li>Fast for 6-8 hours before the test, depending on the specific instructions provided by your doctor.</li>
+            <li>Inform your doctor about any medications you are taking and any health conditions you have.</li>
+        </ul>
+        <p><strong>After the Test:</strong></p>
+        <ul>
+            <li>Follow any post-procedure instructions provided by your doctor, which may include dietary restrictions.</li>
+            <li>Monitor for any unusual symptoms and report them to your healthcare provider.</li>
+        </ul>
+    </div>
+        <!-- Spirometry -->
+        <div class="test-info">
+            <h2>Spirometry (Lung Function Test)</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Avoid smoking and eating a heavy meal for at least 1 hour before the test.</li>
+                <li>Wear loose clothing that does not restrict your chest movement.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>No special precautions are usually needed after a spirometry test.</li>
+                <li>Discuss the results with your doctor during your follow-up appointment.</li>
+            </ul>
+        </div>
+        <!-- Stress Test -->
+        <div class="test-info">
+            <h2>Stress Test (Exercise Electrocardiogram)</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Wear comfortable clothing and walking shoes suitable for exercise.</li>
+                <li>Avoid heavy meals, caffeine, and smoking for at least 3 hours before the test.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Rest for a while after the test, as you may feel tired or lightheaded.</li>
+                <li>Drink plenty of fluids to stay hydrated.</li>
+            </ul>
+        </div>
+        <!-- Allergy Test -->
+        <div class="test-info">
+            <h2>Allergy Test</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Stop taking antihistamines several days before the test, if possible.</li>
+                <li>Discuss any concerns or medications with your doctor before the test.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Resume your normal activities unless advised otherwise by your doctor.</li>
+                <li>Follow any recommendations provided by your doctor based on the test results.</li>
+            </ul>
+        </div>
+        <!-- Genetic Testing -->
+        <div class="test-info">
+            <h2>Genetic Testing</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Discuss the implications and potential outcomes of genetic testing with a genetic counselor.</li>
+                <li>Understand the consent process and any associated costs with the test.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Wait for the results to be analyzed and interpreted by a geneticist or healthcare provider.</li>
+                <li>Discuss the results and any follow-up steps with your healthcare provider.</li>
+            </ul>
+        </div>
+        <!-- Liver Function Test -->
+        <div class="test-info">
+            <h2>Liver Function Test</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Fast for 8-12 hours before the test, if required by your doctor.</li>
+                <li>Avoid alcohol and certain medications as instructed by your doctor.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Resume your normal diet and activities unless instructed otherwise by your doctor.</li>
+                <li>Discuss the results and any necessary follow-up with your doctor.</li>
+            </ul>
+        </div>
+         <!-- Biopsy -->
+         <div class="test-info">
+            <h2>Biopsy</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Discuss any concerns with your doctor and ask about any specific instructions for your biopsy.</li>
+                <li>Wear comfortable clothing and plan for some rest after the procedure.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>Rest at home for the remainder of the day.</li>
+                <li>Follow any post-biopsy care instructions provided by your doctor.</li>
+            </ul>
+        </div>
+        <!-- Mammogram -->
+        <div class="test-info">
+            <h2>Mammogram</h2>
+            <p><strong>Before the Test:</strong></p>
+            <ul>
+                <li>Do not apply deodorant, talcum powder, or lotion under your arms or on your breasts on the day of the test.</li>
+                <li>Schedule the test for the week after your menstrual period, when your breasts are less tender.</li>
+            </ul>
+            <p><strong>After the Test:</strong></p>
+            <ul>
+                <li>No special precautions are usually needed after a mammogram.</li>
+                <li>Follow any recommendations provided by your doctor regarding regular screening.</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

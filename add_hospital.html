@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Hospital</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="password"],
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    h2 {
+      text-align: center;
+    }
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .loader {
+      border: 5px solid #f3f3f3; /* Light grey */
+      border-top: 5px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Add Hospital</h2>
+    <form id="addHospitalForm">
+      <input type="text" name="name" placeholder="Hospital Name" required>
+      <input type="text" name="specialization" placeholder="Specialization">
+      <input type="text" name="place" placeholder="Place">
+      <input type="number" step="0.1" name="rating" placeholder="Rating">
+      <input type="number" name="roomsAvailability" placeholder="Rooms Availability">
+      <input type="text" name="availability" placeholder="Availability">
+      <input type="text" name="facility" placeholder="Facility">
+      <input type="text" name="doctors" placeholder="Doctors"> <!-- New input field for doctors -->
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="pass" placeholder="Password" required>
+      <input type="submit" value="Add Hospital">
+      <div class="loader" id="loader" style="display: none;"></div>
+    </form>
+  </div>
+
+  <!-- jQuery CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#addHospitalForm').submit(function(event) {
+        event.preventDefault(); // Prevent default form submission
+        $('#loader').show(); // Show loading spinner
+        const formData = $(this).serialize(); // Serialize form data
+        $.ajax({
+          type: 'POST',
+          url: '/add_hospital', // URL to send the request
+          data: formData, // Form data to send
+          success: function(response) {
+            alert(response); // Show success message
+            console.log("Entered Data: ", formData); // Log form data
+            $('#addHospitalForm')[0].reset(); // Clear form fields
+            $('#loader').hide(); // Hide loading spinner
+          },
+          error: function(xhr, status, error) {
+            alert('Error: ' + xhr.responseText); // Show error message
+            $('#loader').hide(); // Hide loading spinner
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

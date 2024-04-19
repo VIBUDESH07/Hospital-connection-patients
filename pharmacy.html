@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medications</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-lMrqTlhtroT5Iq2uY2TlNH1JdyB75yJMTxizSRYr0dRurpgmHZvPg+s5TJRPKH0ZqB0azYIz1hulZBYzfCl0ig==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px; /* Added padding */
+        }
+
+        .m_container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px; /* Added padding */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Added box-shadow for depth */
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px; /* Added margin for separation */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px; /* Added margin for separation */
+        }
+
+        th, td {
+            padding: 12px; /* Increased padding for better spacing */
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 16px);
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .btn-add, .btn-remove {
+            display: inline-block; /* Changed display to inline-block for better alignment */
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s; /* Added transition for smoother hover effect */
+        }
+
+        .btn-remove {
+            background-color: #f44336;
+        }
+
+        .btn-add:hover, .btn-remove:hover {
+            background-color: #45a049; /* Darker shade on hover for visual feedback */
+        }
+
+        .btn-icon {
+            margin-left: 5px; /* Added margin for spacing */
+        }
+
+        .amount {
+            font-weight: bold; /* Made amount bold for emphasis */
+        }
+    </style>
+</head>
+<body>
+<div class="m_container">
+    <h1>Fill out the prescription form below!</h1>
+    <form id="m_prescriptionForm" action="/submitPrescription" method="POST">
+        <label for="doctorName">Doctor's Name:</label>
+        <input type="text" id="doctorName" name="doctorName" required>
+        <label for="patientName">Patient's Name:</label>
+        <input type="text" id="patientName" name="patientName" required>
+		 <label for="Mobile">Mobile:</label>
+        <input type="text" id="Mobile" name="Mobile" required>
+        <table id="medicationTable">
+            <thead>
+                <tr>
+                    <th>Medication Name</th>
+                    <th>Quantity</th>
+                    <th>Time</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" name="medicationName[]" class="medication-name" required></td>
+                    <td><input type="text" name="quantity[]" class="quantity" required></td>
+                    <td><input type="text" name="time[]" class="time" required></td>
+                    <td class="amount">0</td>
+                    <td><button type="button" class="btn-remove"><i class="fas fa-trash-alt btn-icon"></i>Remove</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn-add"><i class="fas fa-plus btn-icon"></i>Add Medication</button>
+        <button type="submit"><i class="fas fa-paper-plane btn-icon"></i>Submit Prescription</button>
+    </form>
+    <p>Need assistance? Call us at: <a href="tel:+1234567890" target="_blank" rel="noreferrer">123-456-7890</a></p>
+    <p>Or email us at: <a href="mailto:info@uniquepharmacy.com" target="_blank" rel="noreferrer">info@uniquepharmacy.com</a></p>
+</div>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Array to store medication data
+        var medicationData = [];
+
+        // Sample medication prices (in a real application, this data would come from a database)
+        var medicationPrices = {
+            "paracetamol": 10,
+            "Citrazine": 20,
+            "Ambroxol": 30
+        };
+
+        // Function to calculate amount
+        function calculateAmount(medicationName, quantity) {
+            var price = medicationPrices[medicationName];
+            if (!price) {
+                return 0;
+            }
+            return price * quantity;
+        }
+
+        // Function to display data in console
+        function displayData() {
+            console.log(medicationData);
+        }
+
+        // Function to update amount
+        function updateAmount() {
+            var medicationName = $(this).closest('tr').find('.medication-name').val();
+            var quantity = parseInt($(this).closest('tr').find('.quantity').val()) || 0;
+            var amount = calculateAmount(medicationName, quantity);
+            $(this).closest('tr').find('.amount').text(amount);
+        }
+
+        // Add medication row
+        $('.btn-add').click(function() {
+            $('#medicationTable tbody').append(
+                '<tr>' +
+                '<td><input type="text" name="medicationName[]" class="medication-name" required></td>' +
+                '<td><input type="text" name="quantity[]" class="quantity" required></td>' +
+                '<td><input type="text" name="time[]" class="time" required></td>' +
+                '<td class="amount">0</td>' +
+                '<td><button type="button" class="btn-remove">Remove</button></td>' +
+                '</tr>'
+            );
+        });
+
+        // Remove medication row
+        $(document).on('click', '.btn-remove', function() {
+            $(this).closest('tr').remove();
+            displayData(); // Update data when a row is removed
+        });
+
+        // Update amount on input change
+        $(document).on('change', '.medication-name, .quantity', function() {
+            updateAmount.call(this); // Update amount when medication name or quantity is changed
+            displayData(); // Update data when medication data is changed
+        });
+
+     // Submit form
+$('#m_prescriptionForm').submit(function(event) {
+    event.preventDefault(); // Prevent default form submission
+    var formData = $(this).serializeArray();
+    var totalAmount = 0;
+    var medicationText = ""; // Variable to store medication data as text
+    var medicationQuantity = ""; // Variable to store medication quantity
+    var medicationTime = ""; // Variable to store medication time
+
+    formData.forEach(function(item) {
+        if (item.name === "medicationName[]") {
+            var medicationName = item.value; // Declare and initialize medicationName here
+            var quantityInput = formData.find(x => x.name === "quantity[]" && x.index === item.index);
+            var quantity = quantityInput ? parseInt(quantityInput.value) : null; // Check for undefined
+            var timeInput = formData.find(x => x.name === "time[]" && x.index === item.index);
+            var time = timeInput ? timeInput.value : null; // Check for undefined
+
+            medicationData.push({
+                name: medicationName,
+                quantity: quantity,
+                time: time
+            });
+            totalAmount += calculateAmount(medicationName, quantity || 0);
+            // Append medication data to medicationText
+            medicationText += medicationName + "  ";
+            medicationQuantity += (quantity || "null") + "  "; // Replace undefined with null
+            medicationTime += (time || "null") + " "; // Replace undefined with null
+        }
+    });
+
+    // AJAX request to submit prescription data
+    $.ajax({
+        type: "POST",
+        url: "/submitPrescription",
+        data: {
+            doctorName: $('#doctorName').val(),
+            patientName: $('#patientName').val(),
+            medication: medicationText,
+            quantity: medicationQuantity,
+            time: medicationTime,
+			amount:totalAmount,
+			mobile:$('#Mobile').val()
+           
+        },
+        success: function(response) {
+            console.log("Prescription submitted successfully:", response);
+            // Handle success response here
+        },
+        error: function(xhr, status, error) {
+            console.error("Error submitting prescription:", error);
+            // Handle error here
+        }
+    });
+});
+
+
+    });
+</script>
+</body>
+</html>

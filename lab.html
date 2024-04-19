@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Submission Form</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('lab.jpg'); /* Specify the URL of your background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: #FF0000;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lab Submission Form</h1>
+    <form id="labForm">
+        <label for="hospital_name">Hospital Name:</label><br>
+        <input type="text" id="hospital_name" name="hospital_name" required><br>
+        <label for="location">Location:</label><br>
+        <input type="text" id="location" name="location" required><br>
+        <label for="lab_timing">Lab Timing:</label><br>
+        <input type="text" id="lab_timing" name="lab_timing" required><br>
+        <label for="service">Service:</label><br>
+        <input type="text" id="service" name="service" required><br>
+        <label for="service_timing">Service Timing:</label><br>
+        <input type="text" id="service_timing" name="service_timing" required><br>
+        <label for="center_number">Center Number:</label><br>
+        <input type="text" id="center_number" name="center_number" required><br>
+        <label for="service_cost">Service Cost:</label><br>
+        <input type="text" id="service_cost" name="service_cost" required><br>
+        <span id="errorMessage" class="error"></span><br>
+       
+        <input type="submit" value="Submit" id="submitBtn">
+
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery CDN -->
+
+    <script>
+        $(document).ready(function() {
+            $('#submitBtn').click(function() {
+                // Serialize form data
+                var formData = $('#labForm').serialize();
+
+                // Submit form via AJAX
+                $.ajax({
+                    url: '/submitForm',
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        alert(response.message);
+                        $('#labForm').trigger('reset'); // Reset form after successful submission
+                        $('#errorMessage').text(''); // Clear any previous error message
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                        $('#errorMessage').text('An error occurred while submitting the form'); // Display error message
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
