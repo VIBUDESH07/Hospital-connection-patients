@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Labs</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('C:/Users/p.ammu/Desktop/lab.jpg'); /* Specify the URL of your background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>List of Labs</h1>
+    <form id="searchForm">
+        <input type="text" id="searchQuery" name="searchQuery" placeholder="Search...">
+        <input type="submit" value="Search">
+    </form>
+    <table id="labsTable">
+        <thead>
+            <tr>
+                <th>Hospital Name</th>
+                <th>Location</th>
+                <th>Lab Timing</th>
+                <th>Service</th>
+                <th>Service Timing</th> <!-- New column -->
+                <th>Centre Number</th> <!-- New column -->
+                <th>Service Cost</th> <!-- New column -->
+            </tr>
+        </thead>
+        <tbody>
+            <% labs.forEach(function(lab) { %>
+                <tr>
+                    <td><%= lab.hospital_name %></td>
+                    <td><%= lab.location %></td>
+                    <td><%= lab.lab_timing %></td>
+                    <td><%= lab.service %></td>
+                    <td><%= lab.service_timing %></td> <!-- New column -->
+                    <td><%= lab.center_number %></td> <!-- New column -->
+                    <td><%= lab.service_cost %></td> <!-- New column -->
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById("searchForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const searchQuery = document.getElementById("searchQuery").value.toLowerCase();
+            const labsTable = document.getElementById("labsTable");
+            const rows = labsTable.getElementsByTagName("tr");
+            
+            // Loop through each row and hide/show based on search query
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName("td");
+                let found = false;
+                for (let j = 0; j < cells.length; j++) {
+                    const cellText = cells[j].textContent.toLowerCase();
+                    if (cellText.includes(searchQuery)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+
+            // Hide the form after searching
+            document.getElementById("searchForm").style.display = "none";
+        });
+    </script>
+</body>
+</html>
