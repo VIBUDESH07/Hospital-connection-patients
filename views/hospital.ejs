@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospitals</title>
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #c5eff7; /* Set background color */
+      animation: colorChange 10s infinite alternate; /* Add animation for background color change */
+    }
+
+    @keyframes colorChange {
+      0% { background-color: #c5eff7; }
+      50% { background-color: #ffdb58; }
+      100% { background-color: #c5eff7; }
+    }
+
+    .container {
+      max-width: 1200px; /* Extend container width */
+      margin: 0 auto;
+      padding: 40px; /* Increased padding for better spacing */
+      background-color: #fff; /* Set container background color */
+      border-radius: 15px; /* Add border radius for rounded corners */
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Add box shadow for depth */
+      animation: fadeIn 1s; /* Add animation for container fade in */
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px; /* Increased padding for better readability */
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+.appointment-btn {
+  display: inline-block;
+  width: auto;
+  min-width: 150px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px; /* Adjust padding */
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: 40px;
+  line-height: 24px;
+  font-size: 14px; /* Set font size */
+}
+
+.appointment-btn:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+    /* Style for select input */
+  .searchInput {
+  width: calc(100% - 40px); /* Adjusted width for icon */
+  padding: 8px; /* Reduce padding */
+  margin-bottom: 20px; /* Increased margin-bottom for better spacing */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  padding-left: 40px; /* Added left padding to accommodate icon */
+  font-size: 14px; /* Reduce font size */
+}
+
+
+    /* Style for search input icons */
+    .input-icon {
+      position: relative;
+      margin-bottom: 10px; /* Add margin bottom for spacing */
+    }
+.input-icon i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  color: #888;
+  font-size: 20px; /* Adjust the font size of the icons */
+}
+
+
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>List of Hospitals</h1>
+    <div class="row">
+      <div class="col-md-3">
+        <!-- Search input field for place -->
+        <div class="input-icon">
+          <i class="fas fa-map-marker-alt"></i>
+          <input type="text" id="searchByPlace" class="searchInput" placeholder="Search by Place">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <!-- Search input field for hospital -->
+        <div class="input-icon">
+          <i class="fas fa-hospital"></i>
+          <input type="text" id="searchByHospital" class="searchInput" placeholder="Search by Hospital">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <!-- Search input field for specialization -->
+        <div class="input-icon">
+          <i class="fas fa-briefcase-medical"></i>
+          <select id="searchBySpecialization" class="searchInput">
+            <option value="">Select Specialization</option>
+            <% hospitals.forEach(hospital => { %>
+              <option value="<%= hospital.specialization %>"><%= hospital.specialization %></option>
+            <% }); %>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <!-- Search input field for facility -->
+        <div class="input-icon">
+          <i class="fas fa-tools"></i>
+          <input type="text" id="searchByFacility" class="searchInput" placeholder="Search by Facility">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <!-- Search input field for availability -->
+        <div class="input-icon">
+          <i class="far fa-clock"></i>
+          <input type="text" id="searchByAvailability" class="searchInput" placeholder="Search by Availability">
+        </div>
+      </div>
+    </div>
+    <!-- Hospital table -->
+    <table id="hospitalTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Specialization</th>
+          <th>Place</th>
+          <th>Rating</th>
+          <th>Rooms Availability</th>
+          <th>Availability</th>
+		  <th>Doctors</th>
+          <th>Facility</th>
+          <th>Make Appointment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% hospitals.forEach(hospital => { %>
+          <tr class="hospitalRow">
+            <td><%= hospital.name %></td>
+            <td><%= hospital.specialization %></td>
+            <td><%= hospital.place %></td>
+            <td><%= hospital.rating %></td>
+            <td><%= hospital.rooms_availability %></td>
+            <td><%= hospital.availability %></td>
+			<td><%=hospital.doctors%></td>
+            <td><%= hospital.facility %></td>
+            <td><a href="/appointment?hospital=<%= hospital.hospital_id %>" class="appointment-btn">Make Appointment</a></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- jQuery CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script>
+  $(document).ready(function() {
+    // Function to perform filtering based on input values
+    function filterHospitals() {
+      const place = $('#searchByPlace').val().toLowerCase();
+      const hospital = $('#searchByHospital').val().toLowerCase();
+      const specialization = $('#searchBySpecialization').val().toLowerCase();
+      const facility = $('#searchByFacility').val().toLowerCase();
+      const availability = $('#searchByAvailability').val().toLowerCase();
+
+      $('.hospitalRow').each(function() {
+        const row = $(this);
+        const name = row.find('td:eq(0)').text().toLowerCase();
+        const spec = row.find('td:eq(1)').text().toLowerCase();
+        const loc = row.find('td:eq(2)').text().toLowerCase();
+        const fac = row.find('td:eq(6)').text().toLowerCase();
+        const avail = row.find('td:eq(5)').text().toLowerCase();
+
+        // Show row if it matches all search criteria or if no criteria is provided
+        if ((place === '' || loc.includes(place)) &&
+            (hospital === '' || name.includes(hospital)) &&
+            (specialization === '' || spec === specialization) &&
+            (facility === '' || fac.includes(facility)) &&
+            (availability === '' || avail.includes(availability))) {
+          row.fadeIn(300);
+        } else {
+          row.fadeOut(300);
+        }
+      });
+    }
+
+    // Populate the specialization dropdown with unique values
+    function populateSpecializationDropdown() {
+      const specializations = []; // Array to store unique specialization values
+      $('#searchBySpecialization').empty(); // Clear existing options
+
+      $('.hospitalRow').each(function() {
+        const spec = $(this).find('td:eq(1)').text().trim(); // Get specialization text
+        if (!specializations.includes(spec)) {
+          specializations.push(spec); // Add specialization to array if not already present
+          $('#searchBySpecialization').append(`<option value="${spec}">${spec}</option>`); // Append option to dropdown
+        }
+      });
+
+      // Add default option
+      $('#searchBySpecialization').prepend(`<option value="">Select Specialization</option>`);
+    }
+
+    // Call the function to populate the specialization dropdown initially
+    populateSpecializationDropdown();
+
+    // Event listeners for input fields
+    $('#searchByPlace, #searchByHospital, #searchBySpecialization, #searchByFacility, #searchByAvailability').on('input', filterHospitals);
+  });
+</script>
+
+</body>
+</html>
