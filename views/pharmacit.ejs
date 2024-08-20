@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacist Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, Pharmacist!</h1>
+    <h2>Prescriptions to Review:</h2>
+    <% if (prescriptions && prescriptions.length > 0) { %>
+        <ul>
+            <% prescriptions.forEach(function(prescription) { %>
+                <li>
+                    <strong>Doctor's Name:</strong> <%= prescription.doctorName %><br>
+                    <strong>Patient's Name:</strong> <%= prescription.patientName %><br>
+                    <strong>Medication:</strong> <%= prescription.medication %><br>
+                    <form action="/processPrescription/<%= prescription.id %>" method="POST">
+                        <select name="action">
+                            <option value="ready">Mark as Ready</option>
+                            <option value="not_ready">Mark as Not Ready</option>
+                        </select>
+                        <button type="submit">Submit</button>
+                    </form>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No prescriptions to review at the moment.</p>
+    <% } %>
+</body>
+</html>
