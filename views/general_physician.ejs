@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient-Doctor Connections & Hospital Appointment</title>
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #c5eff7; /* Set background color */
+      animation: colorChange 10s infinite alternate; /* Add animation for background color change */
+    }
+
+    @keyframes colorChange {
+      0% { background-color: #c5eff7; }
+      50% { background-color: #ffdb58; }
+      100% { background-color: #c5eff7; }
+    }
+
+    .container {
+      max-width: 1200px; /* Extend container width */
+      margin: 0 auto;
+      padding: 40px; /* Increased padding for better spacing */
+      background-color: #fff; /* Set container background color */
+      border-radius: 15px; /* Add border radius for rounded corners */
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Add box shadow for depth */
+      animation: fadeIn 1s; /* Add animation for container fade in */
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px; /* Increased padding for better readability */
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .appointment-btn {
+      display: inline-block;
+      width: auto;
+      min-width: 150px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 12px; /* Adjust padding */
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      height: 40px;
+      line-height: 24px;
+      font-size: 14px; /* Set font size */
+    }
+
+    .appointment-btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* Style for select input */
+    .searchInput {
+      width: calc(100% - 40px); /* Adjusted width for icon */
+      padding: 8px; /* Reduce padding */
+      margin-bottom: 20px; /* Increased margin-bottom for better spacing */
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      padding-left: 40px; /* Added left padding to accommodate icon */
+      font-size: 14px; /* Reduce font size */
+    }
+
+    /* Style for search input icons */
+    .input-icon {
+      position: relative;
+      margin-bottom: 10px; /* Add margin bottom for spacing */
+    }
+
+    .input-icon i {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 10px;
+      color: #888;
+      font-size: 20px; /* Adjust the font size of the icons */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Patient-Doctor Connections & Hospital Appointment</h1>
+    <!-- Search input fields -->
+    <div class="row">
+      <div class="col-md-3">
+        <!-- Search input field for doctor name -->
+        <div class="input-icon">
+          <i class="fas fa-user-md"></i>
+          <input type="text" id="searchName" class="searchInput" placeholder="Search by Doctor Name">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <!-- Search input field for specialization -->
+        <div class="input-icon">
+          <i class="fas fa-briefcase-medical"></i>
+          <input type="text" id="searchSpecialization" class="searchInput" placeholder="Search by Specialization">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <!-- Search input field for location -->
+        <div class="input-icon">
+          <i class="fas fa-map-marker-alt"></i>
+          <input type="text" id="searchLocation" class="searchInput" placeholder="Search by Location">
+        </div>
+      </div>
+    </div>
+
+    <!-- Connections table -->
+    <table id="connectionsTable">
+      <thead>
+        <tr>
+          <th>Doctor Name</th>
+          <th>Specialization</th>
+          <th>Location</th>
+          <th>Availability</th>
+          <th>Hospital Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (connections && connections.length) { %>
+          <% connections.forEach((connection) => { %>
+            <tr class="connection">
+              <td><%= connection.name %></td>
+              <td><%= connection.specialization %></td>
+              <td><%= connection.place %></td>
+              <td><%= connection.availability %></td>
+              <td><%= connection.hospital_name %></td>
+              <td><a href="/submit_doctor_appointment?id=<%= connection.doctor_id %>" class="appointment-btn">Make Appointment</a></td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr>
+            <td colspan="6">No connections found.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- jQuery CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script>
+    // JavaScript to handle search functionality
+    $(document).ready(function() {
+      // Add event listener for input event on search input fields
+      $('#searchName, #searchSpecialization, #searchLocation').on('input', function() {
+        const searchName = $('#searchName').val().trim().toLowerCase(); // Get search term for name
+        const searchSpecialization = $('#searchSpecialization').val().trim().toLowerCase(); // Get search term for specialization
+        const searchLocation = $('#searchLocation').val().trim().toLowerCase(); // Get search term for location
+
+        // Loop through connections and show/hide based on search terms
+        $('.connection').each(function() {
+          const name = $(this).find('td:eq(0)').text().trim().toLowerCase(); // Get name from table cell
+          const specialization = $(this).find('td:eq(1)').text().trim().toLowerCase(); // Get specialization from table cell
+          const location = $(this).find('td:eq(2)').text().trim().toLowerCase(); // Get location from table cell
+
+          // Check if search terms match any part of the connection details
+          if (name.includes(searchName) && specialization.includes(searchSpecialization) && location.includes(searchLocation)) {
+            $(this).fadeIn(300); // Fade in connection if it matches all search terms
+          } else {
+            $(this).fadeOut(300); // Fade out connection if it does not match all search terms
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
