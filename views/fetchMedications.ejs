@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .m_container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="m_container">
+        <h1>Fill out the prescription form below!</h1>
+        <form id="m_prescriptionForm" action="/submit_prescription" method="POST">
+            <label for="m_doctorName">Doctor's Name:</label><br>
+            <input type="text" id="m_doctorName" name="doctorName"><br>
+            <label for="m_patientName">Patient's Name:</label><br>
+            <input type="text" id="m_patientName" name="patientName"><br>
+            <label for="m_medication">Medication:</label><br>
+            <textarea id="m_medication" name="medication"></textarea><br>
+            <button type="submit">Submit Prescription</button>
+        </form>
+        <p>Need assistance? Call us at: <a href="tel:+1234567890" target="_blank" rel="noreferrer">123-456-7890</a></p>
+        <p>Or email us at: <a href="mailto:info@uniquepharmacy.com" target="_blank" rel="noreferrer">info@uniquepharmacy.com</a></p>
+    </div>
+</div>
+</body>
+</html>
