@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        select {
+            padding: 6px 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, Patient!</h1>
+
+    <h2>Your Prescriptions:</h2>
+    <form action="/update_status" method="POST">
+        <table>
+            <thead>
+                <tr>
+                    <th>Doctor Name</th>
+                    <th>Patient Name</th>
+                    <th>Medication</th>
+                    <th>Quantity</th>
+					<th>Mobile_no</th>
+                    <th>Timing</th>
+					<th>Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% prescriptions.forEach((prescription, index) => { %>
+                    <tr>
+                        <td><%= prescription.doctorName %></td>
+                        <td><%= prescription.patientName %></td>
+                        <td><%= prescription.medication %></td>
+                        <td><%= prescription.quantity %></td>
+						<td><%= prescription.mobile %></td>
+                        <td><%= prescription.timing %></td>
+						<td><%= prescription.amount%></td>
+                        <td>
+                            <select name="status">
+                                <option value="waiting" <% if (index !== 0 && prescription.status === 'waiting') { %> selected <% } %>>Waiting</option>
+                                <option value="ready" <% if (index === 0) { %> selected <% } %>>Ready</option>
+                                <option value="completed" <% if (prescription.status === 'completed') { %> selected <% } %>>Completed</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button type="button" onclick="deletePrescription('<%= prescription.prescription_id %>')">Delete</button>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <button type="submit">Update Status</button>
+    </form>
+
+    <script>
+        function deletePrescription(prescriptionId) {
+            if (confirm('Are you sure you want to delete this prescription?')) {
+                window.location.href = '/delete_prescription?id=' + prescriptionId;
+            }
+        }
+    </script>
+</body>
+</html>
