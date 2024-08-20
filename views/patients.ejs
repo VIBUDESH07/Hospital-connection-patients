@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        button {
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Patients List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Date</th>
+                <th>Time</th>
+				<th>Doctor</th>
+                <th>Hospital</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% patients.forEach(patient => { %>
+                <tr id="patient_<%= patient.id %>">
+                    <td><%= patient.name %></td>
+                    <td><%= patient.email %></td>
+                    <td><%= patient.date %></td>
+                    <td><%= patient.time %></td>
+					<td><%=patient.doctor%></td>
+                    <td><%= patient.hospital_name %></td>
+                    <td>
+                        <button onclick="markVisited('<%= patient.email %>')">Visited</button>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <script>
+        function markVisited(email) {
+            const confirmation = confirm("Are you sure you want to mark this patient as visited?");
+            if (confirmation) {
+                fetch('/mark_visited', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: email })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // If request is successful, remove the row from the table
+                        const rowId = `patient_${email.replace('@', '_').replace('.', '_')}`;
+                        const patientRow = document.getElementById(rowId);
+                        if (patientRow) {
+                            patientRow.remove();
+                        }
+                    } else {
+                        throw new Error('Failed to mark patient as visited');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to mark patient as visited');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
