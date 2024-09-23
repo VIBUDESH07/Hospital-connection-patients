@@ -26,4 +26,4 @@ services:
       DB_NAME: hackbuzz
 
 volumes:
-  db_data:
+  db_data: {}
