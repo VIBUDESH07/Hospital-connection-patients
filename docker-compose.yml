@@ -1,29 +1,35 @@
 version: '3.8'
 services:
-  db:
-    image: mysql:8.0
-    container_name: mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234  # Replace with a strong, random password
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hospital-backend
     ports:
-      - "3306:3306"
-    volumes:
-      - db_data:/var/lib/mysql
-      
-  web:
-    build: .
-    container_name: node-app
-    restart: always
-    ports:
-      - "3000:3000"
+      - "5000:5000"  # Exposing the backend on port 5000
     depends_on:
-      - db
+      - db  # Ensuring MySQL is running before the backend
     environment:
-      DB_HOST: db
-      DB_USER: root  # Not recommended for production!
-      DB_PASSWORD: 1234  # Not recommended for production!
+      DB_HOST: db  # Use 'db' as the host since both containers are in the same network
+      DB_USER: root
+      DB_PASSWORD: 1234
       DB_NAME: hackbuzz
+    networks:
+      - hospital-network
 
-volumes:
-  db_data: {}
+  db:
+    image: mysql:latest
+    container_name: some-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: hackbuzz
+    volumes:
+      - ./data/mysql:/var/lib/mysql  # Persist MySQL data
+    ports:
+      - "3307:3306"  # Exposing MySQL on port 3306
+    networks:
+      - hospital-network
+
+networks:
+  hospital-network:
+    driver: bridge
